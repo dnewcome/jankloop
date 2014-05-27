@@ -23,8 +23,19 @@
 		}
 		function moveright() {
 			var els = document.getElementsByClassName('animatable');
+			console.log('adding listener and classname');
 			els[0].classList.add('moveright');
-			els[0].classList.remove('moveleft');
+			els[0].addEventListener('webkitAnimationEnd', remove, false);
+			function remove(el) {
+				console.log('removing listener and classname');
+				el.target.classList.remove('moveright');
+				el.target.removeEventListener('webkitAnimationEnd', remove, false);
+			}
+		}
+		function stopmoveright() {
+			var els = document.getElementsByClassName('animatable');
+			console.log('removing listener and classname');
+			els[0].classList.remove('moveright');
 		}
 
 		function init() {
@@ -134,6 +145,7 @@
 		.moveright {
 			-webkit-animation-name: moveright;
 			-webkit-animation-duration: 3s;
+			-webkit-animation-fill-mode: forwards;
 		} 
 
 		div {

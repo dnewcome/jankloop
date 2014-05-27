@@ -1,0 +1,49 @@
+<!doctype html>
+<html language="en-US">
+<head>
+	<script>
+		/*
+		(function loop() {
+			window.requestAnimationFrame(loop);
+			console.log('rendering');
+		})();
+		*/
+		var tick = false;
+		function init() {
+			console.log('adding scroll handler');
+			window.addEventListener('scroll', scrollHandler, false);
+		}
+		// in chrome we never see a situation where we call scroll handler faster than the animation frames
+		// can be processed.. In safari we do.
+		function scrollHandler(e) {
+			if(!tick) {
+				tick = true;
+				// window.requestAnimationFrame(logFrame);	
+			console.log(e);
+				window.webkitRequestAnimationFrame(logFrame);	
+			}
+			else {
+				console.log('already ticking, skipping update');
+			}
+		}
+		function logFrame(e) {
+			tick = false;
+			console.log('running scroll handler');
+			console.log(document.body.scrollTop);
+		}
+	</script>
+	<style>
+		#box {
+			border: 1px solid black;
+			width: 100px;
+			height: 10000px;
+			background-color: green;
+			-webkit-transition: -webkit-transform 2s, opacity 2s;
+		}
+
+	</style>
+</head>
+<body onload="init();">
+	<div id='box'></div>
+</body>
+</html>
