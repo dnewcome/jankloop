@@ -11,12 +11,76 @@
 			console.log('rendering');
 		})();
 */
+		function animate() {
+			var els = document.getElementsByClassName('animatable');
+			els[0].classList.add('doanimation');
+		}
+
+		function moveleft() {
+			var els = document.getElementsByClassName('animatable');
+			els[0].classList.add('moveleft');
+			els[0].classList.remove('moveright');
+		}
+		function moveright() {
+			var els = document.getElementsByClassName('animatable');
+			els[0].classList.add('moveright');
+			els[0].classList.remove('moveleft');
+		}
+
 		function init() {
 			console.log('loading');
 			var els = document.getElementsByClassName('animatable');
-			els[0].classList.add('doanimation');
-			$('#draggable').draggable();
+
+			// els[0].classList.add('doanimation');
+
+
+			function mouseListener(el) {
+				console.log(el);
+				console.log('moving mouse');
+				el.target.style.top = el.clientY - 50 + "px";
+				el.target.style.left = el.clientX - 50 + "px";
+			}
+
+			els[0].addEventListener('mousedown', function(el) {
+				console.log('adding click handler');
+				el.target.addEventListener('mousemove', mouseListener);
+			});	
+			els[0].addEventListener('mouseup', function(el) {
+				console.log('removing click handler');
+				el.target.removeEventListener('mousemove', mouseListener);
+			});
+
+			// $('#draggable').draggable();
 		}
+
+	// addStylesheetRules([['div.animatable',['background-color', 'red']]])
+	function addStylesheetRules (rules) {
+	  var styleEl = document.createElement('style'),
+		  styleSheet;
+
+	  // Append style element to head
+	  document.head.appendChild(styleEl);
+
+	  // Grab style sheet
+	  styleSheet = styleEl.sheet;
+
+	  for (var i = 0, rl = rules.length; i < rl; i++) {
+		var j = 1, rule = rules[i], selector = rules[i][0], propStr = '';
+		// If the second argument of a rule is an array of arrays, correct our variables.
+		if (Object.prototype.toString.call(rule[1][0]) === '[object Array]') {
+		  rule = rule[1];
+		  j = 0;
+		}
+
+		for (var pl = rule.length; j < pl; j++) {
+		  var prop = rule[j];
+		  propStr += prop[0] + ':' + prop[1] + (prop[2] ? ' !important' : '') + ';\n';
+		}
+
+		// Insert CSS Rule
+		styleSheet.insertRule(selector + '{' + propStr + '}', styleSheet.cssRules.length);
+	  }
+	}
 
 	</script>
 	<style>
@@ -29,7 +93,16 @@
 
 		@-webkit-keyframes anim-3d {
 		  0% { -webkit-transform: translateX(0px); }
-		  100% { -webkit-transform: translate(100px); }
+		  100% { -webkit-transform: translateX(100px); }
+		}
+
+		@-webkit-keyframes moveright {
+		  from { -webkit-transform: translateX(0px); }
+		  to { -webkit-transform: translateX(100px); }
+		}
+		@-webkit-keyframes moveleft {
+		  from { -webkit-transform: translateX(0px); }
+		  to { -webkit-transform: translateX(100px); }
 		}
 
 		@-webkit-keyframes anim-opacity {
@@ -52,6 +125,18 @@
 		.doanimation {
 			-webkit-animation-name: anim-3d;
 			-webkit-animation-duration: 3s;
+		} 
+
+		.moveleft {
+			-webkit-animation-name: moveleft;
+			-webkit-animation-duration: 3s;
+		} 
+		.moveright {
+			-webkit-animation-name: moveright;
+			-webkit-animation-duration: 3s;
+		} 
+
+		div {
 			position: absolute;
 			border: 1px solid black;
 			background-color: green;
@@ -59,7 +144,7 @@
 			height: 100px;
 			top: 0;
 			left: 0;
-		} 
+		}
 		
 	</style>
 </head>
