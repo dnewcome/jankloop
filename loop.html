@@ -1,0 +1,69 @@
+<!doctype html>
+<html language="en-US">
+<head>
+	<meta charset="utf-8"></meta>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
+	<script>
+/*
+		(function loop() {
+			window.requestAnimationFrame(loop);
+			console.log('rendering');
+		})();
+*/
+		function init() {
+			console.log('loading');
+			var els = document.getElementsByClassName('animatable');
+			els[0].classList.add('doanimation');
+			$('#draggable').draggable();
+		}
+
+	</script>
+	<style>
+		@-webkit-keyframes anim {
+		  0% { top: 0; left: 0; }
+		  30% { top: 50px; }
+		  68%, 72% { left: 50px; }
+		  100% { top: 100px; left: 100%; }
+		}
+
+		@-webkit-keyframes anim-3d {
+		  0% { -webkit-transform: translateX(0px); }
+		  100% { -webkit-transform: translate(100px); }
+		}
+
+		@-webkit-keyframes anim-opacity {
+		  0% { opacity: 0; }
+		  100% { opacity: 1; }
+		}
+
+		@-webkit-keyframes anim2 {
+		 from {
+			margin-left: 100%;
+			width: 300%; 
+		  }
+
+		  to {
+			margin-left: 0%;
+			width: 100%;
+		  }
+		}
+
+		.doanimation {
+			-webkit-animation-name: anim-3d;
+			-webkit-animation-duration: 3s;
+			position: absolute;
+			border: 1px solid black;
+			background-color: green;
+			width: 100px;
+			height: 100px;
+			top: 0;
+			left: 0;
+		} 
+		
+	</style>
+</head>
+<body onload="init();">
+	<div id= 'draggable' class="animatable"></div>
+</body>
+</html>
